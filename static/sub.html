@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spider Subscription</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#060607;color:#f5f5f6;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
+body:before{content:"";position:fixed;inset:-25%;z-index:-2;background:radial-gradient(circle at 15% 20%,#ff24351c,transparent 25%),radial-gradient(circle at 85% 75%,#9d1c2d18,transparent 25%);filter:blur(55px)}
+.wrap{max-width:1180px;margin:auto;padding:24px 18px 60px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:1px}.logo{width:42px;height:42px;border-radius:14px;background:#ffffff08;border:1px solid #fff1;display:grid;place-items:center}.spider{font-size:20px}.pill{font-size:11px;padding:8px 11px;border:1px solid #ff445033;color:#ff8790;border-radius:999px;background:#ff44500b}
+.hero{padding:34px;border:1px solid #fff1;border-radius:30px;background:linear-gradient(145deg,#ffffff09,#ffffff04);backdrop-filter:blur(25px);box-shadow:0 35px 100px #0009}
+.kicker{color:#ff6975;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:800}.hero h1{font-size:clamp(38px,6vw,68px);line-height:.95;letter-spacing:-3px;margin:12px 0}.hero h1 span{color:#ff4656}.hero p{color:#9d9da4;max-width:700px;line-height:1.65;margin:0}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:18px}.card{border:1px solid #fff1;background:#ffffff06;border-radius:24px;padding:22px;backdrop-filter:blur(20px)}.title{font-weight:800;font-size:18px}.muted{color:#888992}.label{font-size:10px;color:#777983;letter-spacing:1.5px;text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{padding:16px;border-radius:18px;background:#0005;border:1px solid #fff0f}.num{font-size:22px;font-weight:850;margin-top:7px}.red{color:#ff6974}.green{color:#64e6a0}
+.meter{height:10px;border-radius:99px;background:#ffffff0c;overflow:hidden;margin-top:11px}.fill{height:100%;width:0;background:linear-gradient(90deg,#ff3345,#ff7a83);transition:width .5s;border-radius:99px}
+.time{font-size:38px;font-weight:900;letter-spacing:-1.5px;margin:8px 0}.expire{font-size:12px;color:#888}.status{display:inline-flex;gap:7px;align-items:center;padding:7px 10px;border-radius:999px;background:#62e59f0d;border:1px solid #62e59f22;color:#62e59f;font-size:11px;font-weight:800}
+.dot{width:7px;height:7px;border-radius:50%;background:#62e59f;box-shadow:0 0 10px #62e59f}.actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}button{cursor:pointer;border-radius:12px;padding:11px 14px;font-weight:800;border:1px solid #fff1;background:#fff;color:#090909}button.alt{background:#ffffff08;color:#fff}.url{margin-top:10px;background:#0007;border:1px solid #fff1;border-radius:13px;padding:12px;color:#ffbbc0;font:12px ui-monospace,monospace;word-break:break-all}
+.config{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #fff0f;gap:12px}.config:last-child{border-bottom:0}.cfgname{font-weight:700}.type{font-size:10px;color:#999;border:1px solid #fff2;padding:5px 7px;border-radius:8px}
+.breakdown{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.mini{padding:13px;border-radius:15px;background:#0005}.mini strong{display:block;margin-top:5px}
+.toast{position:fixed;bottom:18px;right:18px;padding:12px 15px;background:#171719;border:1px solid #fff2;border-radius:14px;opacity:0;transform:translateY(10px);transition:.25s}.toast.show{opacity:1;transform:none}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.hero{padding:25px}.time{font-size:31px}}@media(max-width:480px){.stats{grid-template-columns:1fr}.wrap{padding:15px 12px 45px}}
+</style></head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="logo"><span class="spider">🕷</span></div>SPIDER <span style="color:#777">SUBSCRIPTION</span></div><div class="pill">LIVE SUB API</div></header>
+<section class="hero"><div class="kicker">Personal subscription</div><h1 id="hello">Loading<br><span>subscription...</span></h1><p>Real-time account information pulled from the subscription API. Traffic, remaining time, status and configuration list all come from the same user record.</p></section>
+<section class="grid">
+<div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="label">Account</div><div class="title" id="username">—</div></div><div id="status" class="status"><i class="dot"></i>ACTIVE</div></div>
+<div class="stats"><div class="stat"><div class="label">Total traffic</div><div class="num" id="total">—</div></div><div class="stat"><div class="label">Used</div><div class="num red" id="used">—</div></div><div class="stat"><div class="label">Remaining</div><div class="num green" id="remaining">—</div></div></div>
+<div style="margin-top:20px;display:flex;justify-content:space-between"><span class="label">Traffic usage</span><span class="muted" id="percent">—</span></div><div class="meter"><div id="fill" class="fill"></div></div>
+<div class="breakdown"><div class="mini"><span class="label">Download</span><strong id="download">—</strong></div><div class="mini"><span class="label">Upload</span><strong id="upload">—</strong></div></div>
+</div>
+<div class="card" style="margin-top:18px"><div class="label">Subscription URL</div><div id="suburl" class="url">—</div><div class="actions"><button id="copy">Copy link</button><button class="alt" id="consume">Simulate +0.5 GB</button><button class="alt" id="refresh">Refresh</button></div></div>
+</div>
+<div>
+<div class="card"><div class="label">Time remaining</div><div id="time" class="time">—</div><div class="expire" id="expires">—</div></div>
+<div class="card" style="margin-top:18px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="label">Configurations</div><div class="title" id="count">—</div></div><div class="pill">READY</div></div><div id="configs" style="margin-top:8px"></div></div>
+</div></section></main><div id="toast" class="toast">Copied</div>
+<script>
+let state=null;
+function fmt(sec){sec=Math.max(0,sec);let d=Math.floor(sec/86400);sec%=86400;let h=Math.floor(sec/3600);sec%=3600;let m=Math.floor(sec/60);let s=sec%60;return `${d}d ${String(h).padStart(2,"0")}h ${String(m).padStart(2,"0")}m ${String(s).padStart(2,"0")}s`}
+function render(){
+ if(!state)return; const t=state.traffic;
+ document.querySelector("#hello").innerHTML=`Welcome back,<br><span>${state.user.username}</span>`;
+ document.querySelector("#username").textContent=state.user.username;
+ document.querySelector("#total").textContent=t.limitGB+" GB";
+ document.querySelector("#used").textContent=t.usedGB+" GB";
+ document.querySelector("#remaining").textContent=t.remainingGB+" GB";
+ document.querySelector("#percent").textContent=t.percentage+"%";
+ document.querySelector("#fill").style.width=Math.min(100,t.percentage)+"%";
+ document.querySelector("#download").textContent=t.downloadGB+" GB";
+ document.querySelector("#upload").textContent=t.uploadGB+" GB";
+ document.querySelector("#time").textContent=fmt(state.time.remainingSeconds);
+ document.querySelector("#expires").textContent="Expires: "+new Date(state.time.expiresAt).toLocaleString();
+ document.querySelector("#count").textContent=state.configs.length+" configs";
+ document.querySelector("#suburl").textContent=state.subscriptionUrl;
+ document.querySelector("#configs").innerHTML=state.configs.map(c=>`<div class="config"><div class="cfgname">${c.name}<br><small class="muted">${c.type}</small></div><span class="type">ACTIVE</span></div>`).join("");
+}
+async function load(){try{state=await fetch("/api/demo").then(r=>r.json());render()}catch(e){}}
+setInterval(()=>{if(state){state.time.remainingSeconds--; if(state.time.remainingSeconds<0)state.time.remainingSeconds=0; document.querySelector("#time").textContent=fmt(state.time.remainingSeconds)}},1000);
+document.querySelector("#refresh").onclick=load;
+document.querySelector("#consume").onclick=async()=>{state=await fetch("/api/demo/consume?gb=0.5",{method:"POST"}).then(r=>r.json());render()};
+document.querySelector("#copy").onclick=async()=>{await navigator.clipboard.writeText(document.querySelector("#suburl").textContent);const x=document.querySelector("#toast");x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1200)};
+load();
+</script></body></html>
